@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.28"
+      version = "~> 3.27"
     }
   }
 
@@ -18,8 +18,17 @@ resource "aws_instance" "app_server" {
   ami           = "ami-054a31f1b3bf90920"
   instance_type = "t2.micro"
   key_name = "iac-alura"
+  user_data = <<-EOF
+                #!/bin/bash
+                cd /home/ubuntu
+                echo “<h1>feito com terraform</h1>” > index.html
+                nohup busybox httpd -f -p 8080 &
+                EOF
+
+                 nohup busybox httpd -f -p 8080 &
+                EOF
 
   tags = {
-    Name = "primeirainstancia"
+    Name = "teste aws"
   }
 }
